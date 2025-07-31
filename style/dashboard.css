@@ -1,0 +1,531 @@
+:root {
+            --primary-color: #6a88f5;
+            --blue-button-color: rgb(75, 126, 215);
+            --light-primary-color: #e9eefd;
+            --background-color: #f8f9fa;
+            --sidebar-background: #ffffff;
+            --border-color: #e0e0e0;
+            --text-color: #000;
+            --text-secondary-color: #333;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* --- CABEÇALHO PRINCIPAL (NOVO) --- */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background-color: #fff;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .workspace-avatar {
+            background-color: var(--primary-color);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .workspace-name {
+            font-weight: 600;
+        }
+
+        .logo-name {
+            font-weight: 500;
+        }
+        
+        .free-tag {
+            background-color: #e0e0e0;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .header-button {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        
+        .header-button.upgrade {
+            background-color: var(--blue-button-color);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .header-icon-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.2rem;
+            color: var(--text-secondary-color);
+        }
+        
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #ccc;
+        }
+
+
+        .dashboard-container {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden; /* Evita barras de rolagem duplas */
+        }
+
+        /* --- Barra Lateral (Sidebar) --- */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-background);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar .search-box {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-sizing: border-box;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav li a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            color: var(--text-secondary-color);
+            border-radius: 8px;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar nav li a .fa-fw {
+            width: 20px;
+        }
+
+        .sidebar nav li a.active {
+            background-color: var(--light-primary-color);
+            color: var(--primary-color);
+        }
+
+        .sidebar nav li a:not(.active):hover {
+            background-color: #f1f1f1;
+        }
+        
+        .sidebar-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            font-weight: 600;
+        }
+        
+        .sidebar-section button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+        }
+
+        /* --- Conteúdo Principal --- */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem 4rem;
+            overflow-y: auto;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header-actions button {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .header-actions button:hover, .header-button:hover {
+            background-color: var(--light-primary-color);
+        }
+
+        .btn-secondary {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+        
+        .btn-primary {
+            background-color: var(--blue-button-color);
+            color: white;
+        }
+        
+        .btn-primary:hover, .header-button.upgrade:hover {
+            background-color: #2a4f9c !important; 
+        }
+
+        /* --- Grid de Templates e Boards --- */
+        .templates-grid {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            align-items: center;
+            background: linear-gradient(to right, #e9f3ff, #edf6ff);
+                padding: 1rem;
+                border-radius: 5px;
+        }
+
+        .template-card {
+            border: 1px solid var(--border-color);
+            background-color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            padding: 0.5rem;
+            flex-shrink: 0;
+            width: 160px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .template-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .template-card .preview {
+            background-color: #f0f0f0;
+            height: 80px;
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .template-card .preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .template-card span {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .scroll-arrow {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .boards-section-header {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        #boards-list-container {
+            text-align: center;
+            padding: 4rem 0;
+        }
+        
+        #boards-list-container img {
+             width: 80px;
+             height: 80px;
+        }
+        
+        #boards-list-container h3 {
+            font-size: 1.8rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        #boards-list-container p {
+            color: var(--text-secondary-color);
+            max-width: 330px;
+            margin: 0 auto;
+        }
+
+/* Estilos para os cards de projetos criados */
+.board-card-item {
+    display: block;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.board-card-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    border-color: var(--primary-color);
+}
+
+.board-card-item .board-preview {
+    height: 120px;
+    background-color: #f0f2f5; /* Cor de fundo para o preview */
+    border-radius: 8px 8px 0 0;
+    /* Adicionar uma imagem de fundo genérica */
+    background-image: linear-gradient(45deg, #e9eefd, #f8f9fa);
+}
+
+.board-card-item .board-title {
+    padding: 1rem;
+    font-weight: 600;
+}
+
+/* Estilos para os cards de projetos criados */
+.board-card-item {
+    display: block;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.board-card-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    border-color: var(--primary-color);
+}
+
+.board-card-item .board-preview {
+    height: 120px;
+    background-color: #f0f2f5; 
+    border-radius: 8px 8px 0 0;
+    background-image: linear-gradient(45deg, #e9eefd, #f8f9fa);
+    /* --- ADIÇÃO CRÍTICA AQUI --- */
+    position: relative; 
+}
+
+.board-card-item .board-title {
+    padding: 1rem;
+    font-weight: 600;
+}
+
+/* Estilo para o ícone de Favorito no card */
+.favorite-star {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.2rem;
+    color: #f59e0b;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.2s ease; /* Remove a transição de opacidade */
+    /* A estrela agora ficará sempre visível */
+}
+
+/* Mantém a estrela sempre visível se ela já for um favorito */
+.favorite-star.is-favorite {
+    opacity: 1;
+}
+
+.favorite-star:hover {
+    transform: scale(1.2);
+}
+
+.favorite-star .fa-regular {
+    color: #a0aec0;
+}
+
+/* Estilo para o cabeçalho da visualização (Início, Favorito) */
+.view-header {
+    margin-bottom: 2rem;
+}
+
+.view-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    color: #000;
+}
+
+/* Estilos para o Menu de Contexto do Card */
+.card-menu-button {
+    position: absolute;
+    top: 10px;
+    left: 10px; /* Movido para a esquerda para não conflitar com a estrela */
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 11; /* Acima da estrela */
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.board-card-item:hover .card-menu-button {
+    opacity: 1;
+}
+
+.card-menu-dropdown {
+    position: absolute;
+    top: 45px; /* Abaixo do botão */
+    left: 10px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 20;
+    width: 200px;
+    padding: 0.5rem 0;
+    display: none; /* Escondido por padrão */
+}
+
+.card-menu-dropdown.visible {
+    display: block;
+}
+
+.card-menu-dropdown .menu-item {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.card-menu-dropdown .menu-item:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilos para o Menu de Contexto do Card */
+.card-menu-button {
+    position: absolute;
+    top: 10px;
+    left: 10px; /* Movido para a esquerda para não conflitar com a estrela */
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 11; /* Acima da estrela */
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.board-card-item:hover .card-menu-button {
+    opacity: 1;
+}
+
+.card-menu-dropdown {
+    position: absolute;
+    top: 45px; /* Abaixo do botão */
+    left: 10px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 20;
+    width: 200px;
+    padding: 0.5rem 0;
+    display: none; /* Escondido por padrão */
+}
+
+.card-menu-dropdown.visible {
+    display: block;
+}
+
+.card-menu-dropdown .menu-item {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.card-menu-dropdown .menu-item:hover {
+    background-color: #f1f1f1;
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Azuriba</title>
+    <link rel="icon" href="image/institucional/logo-abreviada.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style/styles.css">
+    <link rel="stylesheet" href="style/dashboard.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-left">
+            <div class="logo-image">
+                <img src="image/institucional/logo.png" alt="Logo Azuriba">
+            </div>
+            <div class="free-tag">Free</div>
+        </div>
+        <div class="header-right">
+            <button class="header-button">Convidar membros</button>
+            <button class="header-button upgrade">Fazer upgrade</button>
+            <div class="header-icon-buttons">
+                <i class="fa-solid fa-gift"></i>
+                <i class="fa-solid fa-bell"></i>
+            </div>
+            <div class="profile-avatar"></div>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <input type="text" class="search-box" placeholder="Pesquise por título ou ten...">
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fa-regular fa-compass fa-fw"></i> Explorar</a></li>
+                    <li><a href="#" id="inicioBtn" class="active"><i class="fa-solid fa-house fa-fw"></i> Início</a></li>
+                    <li><a href="#"><i class="fa-regular fa-clock fa-fw"></i> Recente</a></li>
+                    <li><a href="#" id="favoritoBtn"><i class="fa-regular fa-star fa-fw"></i> Favorito</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-section">
+                <span>Espaços</span>
+                <button>+</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            <div class="view-header">
+                <h2 id="viewTitle">Início</h2>
+            </div>
+            
+            <div class="templates-grid">
+                <div class="template-card" data-template="blank">
+                    <div class="preview">+</div>
+                    <span>Board em branco</span>
+                </div>
+                <div class="template-card" data-template="flowchart">
+                    <div class="preview"><img src="image/fluxograma.jpg" alt="Fluxograma"></div>
+                    <span>Fluxograma</span>
+                </div>
+                <div class="template-card" data-template="mindmap">
+                    <div class="preview"><img src="image/mapa-mental.jpg" alt="Mapa Mental"></div>
+                    <span>Mapa mental</span>
+                </div>
+                <div class="template-card" data-template="organograma">
+                    <div class="preview"><img src="image/organograma.jpg" alt="Organograma"></div>
+                    <span>Organograma</span>
+                </div>
+            </div>
+            
+            <div class="header-content">
+                <span class="header-title"></span>
+                <div class="header-actions">
+                    <button class="btn-secondary">Explorar templates</button>
+                    <button id="createNewBtn" class="btn-primary">+ Criar novo</button>
+                </div>
+            </div>
+
+            <div class="boards-section-header">Projetos neste ambiente</div>
+
+            <div id="boards-list-container">
+                 <img src="image/institucional/foguete.png" alt="Foguete">
+                 <h3>Desenvolva seu projetos</h3>
+                 <p>Comece do zero, confira nossos templates ou experimente nosso criador de projetos com IA.</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/dashboard.js" type="module"></script>
+</body>
+</html>
