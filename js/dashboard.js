@@ -56,16 +56,11 @@ function showDetails(project) {
     alert(`Detalhes do Projeto:\n\nNome: ${project.name}\nID: ${project.id}\nCriado em: ${creationDate}`);
 }
 
-/**
- * NOVA FUNÇÃO: Exclui um projeto após confirmação.
- * @param {string} projectId O ID do projeto.
- * @param {string} projectName O nome do projeto.
- */
 async function deleteProject(projectId, projectName) {
     if (confirm(`Tem certeza que deseja excluir o projeto "${projectName}"?\n\nEsta ação não pode ser desfeita.`)) {
         try {
             await deleteDoc(doc(db, "charts", projectId));
-            await fetchAndDisplayProjects(); // Recarrega a lista para remover o card
+            await fetchAndDisplayProjects();
         } catch (e) {
             console.error("Erro ao excluir projeto:", e);
             alert("Não foi possível excluir o projeto.");
@@ -73,20 +68,38 @@ async function deleteProject(projectId, projectName) {
     }
 }
 
-// --- FUNÇÕES PRINCIPAIS ---
+async function toggleFavorite(projectId, isFavorite) {
+    const projectRef = doc(db, "charts", projectId);
+    try {
+        await updateDoc(projectRef, { isFavorite: isFavorite });
+        const projectIndex = allProjects.findIndex(p => p.id === projectId);
+        if (projectIndex > -1) {
+            allProjects[projectIndex].isFavorite = isFavorite;
+            setView(currentView);
+        }
+    } catch (e) { console.error("Erro ao favoritar projeto:", e); }
+}
+
+// --- FUNÇÕES PRINCIPAIS DE CONTROLE E RENDERIZAÇÃO ---
 
 function setView(viewName) {
     currentView = viewName;
     let projectsToRender = [];
-    if (viewTitle) {
-        if (viewName === 'inicio') {
-            viewTitle.textContent = 'Início';
-            projectsToRender = allProjects;
-        } else if (viewName === 'favorito') {
-            viewTitle.textContent = 'Favoritos';
-            projectsToRender = allProjects.filter(p => p.isFavorite);
-        }
+    
+    if (viewName === 'inicio') {
+        if (viewTitle) viewTitle.textContent = 'Início';
+        templatesSection.style.display = 'flex';
+        mainActionsSection.style.display = 'flex';
+        boardsHeaderSection.style.display = 'block';
+        projectsToRender = allProjects;
+    } else if (viewName === 'favorito') {
+        if (viewTitle) viewTitle.textContent = 'Favoritos';
+        templatesSection.style.display = 'none';
+        mainActionsSection.style.display = 'none';
+        boardsHeaderSection.style.display = 'none';
+        projectsToRender = allProjects.filter(p => p.isFavorite);
     }
+    
     inicioBtn.classList.toggle('active', viewName === 'inicio');
     favoritoBtn.classList.toggle('active', viewName === 'favorito');
     renderProjects(projectsToRender);
@@ -95,19 +108,24 @@ function setView(viewName) {
 function renderProjects(projectsToRender) {
     if (!boardsListContainer) return;
     boardsListContainer.innerHTML = '';
+    boardsListContainer.classList.remove('is-empty');
 
     if (projectsToRender.length === 0) {
-        // ... (lógica para container vazio) ...
+        boardsListContainer.classList.add('is-empty');
+        if (currentView === 'favorito') {
+            boardsListContainer.innerHTML = `<p>Você ainda não marcou nenhum projeto como favorito.</p>`;
+        } else {
+            boardsListContainer.innerHTML = `
+                <img src="image/institucional/foguete.png" alt="Foguete">
+                <h3>Desenvolva seus projetos</h3>
+                <p>Comece do zero, confira nossos templates ou experimente nosso criador de projetos com IA.</p>`;
+        }
         return;
     }
-
-    boardsListContainer.style.display = 'grid';
-    // ... (estilos do grid) ...
 
     projectsToRender.forEach((project) => {
         const cardContainer = document.createElement('div');
         cardContainer.className = 'board-card-item';
-        cardContainer.style.position = 'relative';
 
         const cardLink = document.createElement('a');
         cardLink.href = `index.html?id=${project.id}`;
@@ -128,7 +146,6 @@ function renderProjects(projectsToRender) {
         
         const menuDropdown = document.createElement('div');
         menuDropdown.className = 'card-menu-dropdown';
-        // --- ALTERAÇÃO AQUI: Adicionada a opção "Excluir" ---
         menuDropdown.innerHTML = `
             <div class="menu-item" data-action="open-tab">Abrir em nova aba</div>
             <div class="menu-item" data-action="favorite">${project.isFavorite ? 'Desmarcar favorito' : 'Marcar como favorito'}</div>
@@ -150,10 +167,8 @@ function renderProjects(projectsToRender) {
         menuDropdown.addEventListener('click', (e) => {
             e.stopPropagation();
             const action = e.target.dataset.action;
-            if(!action) return;
-
-            // --- ALTERAÇÃO AQUI: Adicionado o case para "delete" ---
-            switch(action) {
+            if (!action) return;
+            switch (action) {
                 case 'open-tab': openInNewTab(project.id); break;
                 case 'favorite': toggleFavorite(project.id, !project.isFavorite); break;
                 case 'rename': renameProject(project.id, project.name); break;
@@ -165,7 +180,14 @@ function renderProjects(projectsToRender) {
         });
 
         const favoriteStar = document.createElement('div');
-        // ... (lógica da estrela) ...
+        favoriteStar.className = 'favorite-star';
+        if (project.isFavorite) favoriteStar.classList.add('is-favorite');
+        favoriteStar.innerHTML = `<i class="fa-star ${project.isFavorite ? 'fa-solid' : 'fa-regular'}"></i>`;
+        favoriteStar.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleFavorite(project.id, !project.isFavorite);
+        };
         
         previewDiv.appendChild(favoriteStar);
         cardContainer.appendChild(cardLink);
@@ -175,6 +197,7 @@ function renderProjects(projectsToRender) {
     });
 }
 
+// Fecha o menu se o usuário clicar em qualquer outro lugar da tela
 window.addEventListener('click', () => {
     document.querySelectorAll('.card-menu-dropdown').forEach(m => m.classList.remove('visible'));
 });
@@ -189,18 +212,6 @@ async function fetchAndDisplayProjects() {
     } catch (e) { console.error("Erro ao buscar projetos:", e); }
 }
 
-async function toggleFavorite(projectId, isFavorite) {
-    const projectRef = doc(db, "charts", projectId);
-    try {
-        await updateDoc(projectRef, { isFavorite: isFavorite });
-        const projectIndex = allProjects.findIndex(p => p.id === projectId);
-        if (projectIndex > -1) {
-            allProjects[projectIndex].isFavorite = isFavorite;
-            setView(currentView);
-        }
-    } catch (e) { console.error("Erro ao favoritar projeto:", e); }
-}
-
 async function createNewProject(template = 'blank') {
     const defaultName = template === 'blank' ? "Projeto em Branco" : `Novo ${template.charAt(0).toUpperCase() + template.slice(1)}`;
     const newName = prompt("Digite o nome para o novo projeto:", defaultName);
@@ -215,74 +226,37 @@ async function createNewProject(template = 'blank') {
             newState.cards.push({ id: Date.now(), name: 'CEO / Presidente', title: 'Sua Empresa', type: 'department', x: 400, y: 100, imageUrl: '' });
         }
         await setDoc(newChartRef, newState);
-        window.location.href = `index.html?id=${newChartId.id}`;
+        window.location.href = `index.html?id=${newChartRef.id}`;
     } catch (e) { console.error("Erro ao criar novo projeto:", e); }
 }
 
-// --- Inicialização e Event Listeners (Sem alterações) ---
-if(inicioBtn) {
-    inicioBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        setView('inicio');
+// --- INICIALIZAÇÃO E EVENT LISTENERS ---
+
+if (inicioBtn) { inicioBtn.addEventListener('click', (e) => { e.preventDefault(); setView('inicio'); }); }
+if (favoritoBtn) { favoritoBtn.addEventListener('click', (e) => { e.preventDefault(); setView('favorito'); }); }
+
+if (searchBox) {
+    searchBox.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const projectsToFilter = currentView === 'favorito' ? allProjects.filter(p => p.isFavorite) : allProjects;
+        const filteredProjects = projectsToFilter.filter(project =>
+            project.name.toLowerCase().includes(searchTerm)
+        );
+        renderProjects(filteredProjects);
     });
 }
 
-// Botão "Favorito"
-if(favoritoBtn) {
-    favoritoBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        setView('favorito');
+if (createNewBtn) { createNewBtn.addEventListener('click', () => createNewProject('blank')); }
+
+if (templateCards) {
+    templateCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const templateType = card.dataset.template;
+            createNewProject(templateType);
+        });
     });
 }
 
-// O restante dos listeners (Busca, Criar Novo, Templates) não precisa de alterações.
-
-// Autenticação e carregamento inicial
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        fetchAndDisplayProjects();
-    } else {
-        signInAnonymously(auth).catch(error => console.error("Erro no login anônimo:", error));
-    }
-});
-
-async function createNewProject(template = 'blank') {
-    const defaultName = template === 'blank' ? "Projeto em Branco" : `Novo ${template.charAt(0).toUpperCase() + template.slice(1)}`;
-    const newName = prompt("Digite o nome para o novo projeto:", defaultName);
-    if (!newName) return;
-    try {
-        const newChartRef = doc(collection(db, "charts"));
-        const newState = {
-            name: newName, ownerId: auth.currentUser.uid, createdAt: new Date(), isFavorite: false,
-            cards: [], connections: [], images: [], pan: { x: 0, y: 0, scale: 1 }
-        };
-        if (template === 'organograma') {
-            newState.cards.push({ id: Date.now(), name: 'CEO / Presidente', title: 'Sua Empresa', type: 'department', x: 400, y: 100, imageUrl: '' });
-        }
-        await setDoc(newChartRef, newState);
-        window.location.href = `index.html?id=${newChartId.id}`;
-    } catch (e) { console.error("Erro ao criar novo projeto:", e); }
-}
-
-// --- Inicialização e Event Listeners (Sem alterações) ---
-if(inicioBtn) {
-    inicioBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        setView('inicio');
-    });
-}
-
-// Botão "Favorito"
-if(favoritoBtn) {
-    favoritoBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        setView('favorito');
-    });
-}
-
-// O restante dos listeners (Busca, Criar Novo, Templates) não precisa de alterações.
-
-// Autenticação e carregamento inicial
 onAuthStateChanged(auth, (user) => {
     if (user) {
         fetchAndDisplayProjects();
