@@ -3,104 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notus Construtor</title>
+    <title>Editor - Azuriba</title>
+    <link rel="icon" href="image/institucional/logo-abreviada.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="style/styles.css" rel="stylesheet">
 </head>
 <body>
     <div id="editor-container">
-        <header id="header">
-            <img src="image/institucional/logo.png" alt="Logo Notus" onerror="this.onerror=null;this.src='https://placehold.co/150x40/000000/FFFFFF?text=NOTUS';">
-            <div id="edit-controls">
-                <button id="addImageBtn" class="header-btn">Adicionar Imagem</button>
-                <button id="newProjectBtn" class="header-btn">Novo Projeto</button>
-                <button id="openProjectsBtn" class="header-btn">Meus Projetos</button>
-                <button id="addCardBtn" class="header-btn">Adicionar</button>
-                <button id="connectModeBtn" class="header-btn">Conectar</button>
-                <button id="saveAsBtn" class="header-btn">Salvar Como...</button>
-                <button id="viewModeBtn" class="header-btn">Visualizar</button>
+
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <img src="image/institucional/logo.png" alt="Logo Azuriba" class="top-bar-logo">
+                <div class="project-info">
+                    <h1 id="projectName">Nome do Projeto</h1>
+                    <span id="projectType">Fluxograma</span>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <button class="top-bar-btn share-btn">
+                    <i class="fa-solid fa-share-nodes"></i> Compartilhar
+                </button>
+                <div class="user-info">
+                    <div class="notification-icon"><i class="fa-regular fa-bell"></i></div>
+                    <div class="profile-avatar"></div>
+                </div>
             </div>
         </header>
-        <main>
+
+        <nav class="side-toolbar">
+            <ul>
+                <li><button class="tool-btn active" data-tool="select"><i class="fa-solid fa-mouse-pointer"></i></button></li>
+                <li><button class="tool-btn" data-tool="shape"><i class="fa-regular fa-square"></i></button></li>
+                <li><button class="tool-btn" data-tool="text"><i class="fa-solid fa-font"></i></button></li>
+                <li><button class="tool-btn" data-tool="connection"><i class="fa-solid fa-share-nodes"></i></button></li>
+                <li><button class="tool-btn" data-tool="pen"><i class="fa-solid fa-pencil"></i></button></li>
+                <li><button class="tool-btn" data-tool="upload"><i class="fa-solid fa-upload"></i></button></li>
+            </ul>
+        </nav>
+
+        <main class="canvas-container">
             <div id="canvas"><div id="world"><div id="image-layer"></div><svg id="svg-layer"></svg><div id="card-layer"></div><div id="selection-box" class="hidden"></div></div></div>
         </main>
+
+        <footer class="bottom-bar">
+            <div class="zoom-controls">
+                <button id="zoomOutBtn">-</button>
+                <span id="zoomPercentage">100%</span>
+                <button id="zoomInBtn">+</button>
+            </div>
+            <div class="view-controls">
+                <button id="fitToScreenBtn"><i class="fa-solid fa-compress"></i></button>
+            </div>
+        </footer>
+
     </div>
 
-    <div id="view-page-container" class="hidden">
-        <header id="view-header"><h1 id="viewProjectName">Organograma</h1></header>
-        <main><div id="view-canvas"><div id="view-world"><div id="view-image-layer"></div><svg id="view-svg-layer"></svg><div id="view-card-layer"></div></div></div></main>
-        <div class="footer-faixa">
-            <div>
-                <p>Notus Sistemas Térmicos Do Brasil © Todos os direitos reservados</p>
-            </div>
-            <div class="faixa-amarela"></div>
-            <div class="faixa-verde"></div>
-        </div>
-    </div>
-
-    <div id="editModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <h2 class="modal-title">Editar Card</h2>
-            <div class="modal-body">
-                <div>
-                    <label for="cardType" class="modal-label">Tipo de Card</label>
-                    <select id="cardType" class="modal-select">
-                        <option value="employee">Colaborador</option>
-                        <option value="department">Setor / Função</option>
-                    </select>
-                </div>
-                <div id="imageUrl-wrapper">
-                    <label for="imageUrl" class="modal-label">URL da Foto</label>
-                    <input type="text" id="imageUrl" class="modal-input">
-                </div>
-                <div>
-                    <label for="cardName" class="modal-label">Nome / Cargo</label>
-                    <input type="text" id="cardName" class="modal-input">
-                </div>
-                <div>
-                    <label for="cardTitle" class="modal-label">Descrição / Pessoa</label>
-                    <input type="text" id="cardTitle" class="modal-input">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="deleteCardBtn" class="modal-btn">Excluir Card</button>
-                <div class="modal-footer-right">
-                    <button id="cancelModalBtn" class="modal-btn">Cancelar</button>
-                    <button id="saveModalBtn" class="modal-btn">Salvar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div id="shareModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <h2 class="modal-title">Compartilhar Organograma</h2>
-            <p>Copie o link abaixo para compartilhar uma versão de visualização.</p>
-            <div class="share-container">
-                <input type="text" id="shareLinkInput" readonly class="modal-input">
-                <button id="copyLinkBtn" class="modal-btn">Copiar</button>
-            </div>
-            <div class="modal-footer">
-                <button id="closeShareModalBtn" class="modal-btn">Fechar</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="lineContextMenu" class="hidden">
-        <a href="#" id="deleteLineBtn">Excluir Linha</a>
-    </div>
-
-    <div id="projectListModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <h2 class="modal-title">Meus Projetos</h2>
-            <div class="list-container">
-                <ul id="projectList"></ul>
-            </div>
-            <div class="modal-footer" style="justify-content: flex-end;">
-                <button id="closeProjectsBtn" class="modal-btn">Fechar</button>
-            </div>
-        </div>
-    </div>
+    <div id="editModal" class="modal-overlay hidden"> ... </div>
+    <div id="shareModal" class="modal-overlay hidden"> ... </div>
+    <div id="lineContextMenu" class="hidden"> ... </div>
+    <div id="projectListModal" class="modal-overlay hidden"> ... </div>
 
     <script src="js/script.js" type="module"></script>
 </body>

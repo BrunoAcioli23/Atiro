@@ -30,6 +30,11 @@ body {
     flex-shrink: 0;
 }
 .header-left { display: flex; align-items: center; gap: 1rem; }
+.top-bar-logo {
+    height: 40px;
+    width: auto;
+    cursor: pointer;
+}   
 .free-tag { background-color: #e0e0e0; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
 .header-right { display: flex; align-items: center; gap: 1rem; }
 .header-button { background-color: transparent; border: 1px solid var(--border-color); color: var(--text-color); padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 700; transition: all 0.3s ease; }

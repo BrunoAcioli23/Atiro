@@ -8,9 +8,9 @@ const searchBox = document.querySelector('.search-box');
 const inicioBtn = document.getElementById('inicioBtn');
 const favoritoBtn = document.getElementById('favoritoBtn');
 const viewTitle = document.getElementById('viewTitle');
-const templatesSection = document.getElementById('templatesSection');
-const mainActionsSection = document.getElementById('mainActionsSection');
-const boardsHeaderSection = document.getElementById('boardsHeaderSection');
+const templatesSection = document.querySelector('.templates-grid');
+const mainActionsSection = document.querySelector('.header-content');
+const boardsHeaderSection = document.querySelector('.boards-section-header');
 
 let allProjects = [];
 let currentView = 'inicio';
@@ -88,20 +88,20 @@ function setView(viewName) {
     
     if (viewName === 'inicio') {
         if (viewTitle) viewTitle.textContent = 'Início';
-        templatesSection.style.display = 'flex';
-        mainActionsSection.style.display = 'flex';
-        boardsHeaderSection.style.display = 'block';
+        if (templatesSection) templatesSection.style.display = 'flex';
+        if (mainActionsSection) mainActionsSection.style.display = 'flex';
+        if (boardsHeaderSection) boardsHeaderSection.style.display = 'block';
         projectsToRender = allProjects;
     } else if (viewName === 'favorito') {
         if (viewTitle) viewTitle.textContent = 'Favoritos';
-        templatesSection.style.display = 'none';
-        mainActionsSection.style.display = 'none';
-        boardsHeaderSection.style.display = 'none';
+        if (templatesSection) templatesSection.style.display = 'none';
+        if (mainActionsSection) mainActionsSection.style.display = 'none';
+        if (boardsHeaderSection) boardsHeaderSection.style.display = 'none';
         projectsToRender = allProjects.filter(p => p.isFavorite);
     }
     
-    inicioBtn.classList.toggle('active', viewName === 'inicio');
-    favoritoBtn.classList.toggle('active', viewName === 'favorito');
+    if (inicioBtn) inicioBtn.classList.toggle('active', viewName === 'inicio');
+    if (favoritoBtn) favoritoBtn.classList.toggle('active', viewName === 'favorito');
     renderProjects(projectsToRender);
 }
 
