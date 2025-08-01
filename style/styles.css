@@ -166,4 +166,16 @@ body {
     width: 100%;
     max-width: 32rem; /* Padrão */
 }
-/* ... (outros estilos de modal que você já tinha) ... */
+
+/* Adicione ao final de styles.css */
+.top-bar-projects-btn {
+    background-color: #f3f4f6;
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.top-bar-projects-btn:hover {
+    background-color: #e5e7eb;
+}

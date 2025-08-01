@@ -20,6 +20,12 @@ body {
 }
 
 /* --- HEADER --- */
+.logo-image img{
+    height: 40px;
+    width: auto;
+    cursor: pointer;
+}
+
 .main-header {
     display: flex;
     justify-content: space-between;
